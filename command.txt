@@ -1,0 +1,340 @@
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo
+$ git init
+Initialized empty Git repository in C:/microservices/springcloudbusconfigrepo/.g              it/
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$ git add  *
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$ git commit -m "External Config"
+[master (root-commit) 8be5cfb] External Config
+ 1 file changed, 1 insertion(+)
+ create mode 100644 application.properties
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$ https://github.com/arjungangil2103/springcloudbusconfigrepo.git
+bash: https://github.com/arjungangil2103/springcloudbusconfigrepo.git: No such f              ile or directory
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$ git remote add origin https://github.com/arjungangil2103/springcloudbusconfigrepo.git
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$ git push -u origin master
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 292 bytes | 19.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/arjungangil2103/springcloudbusconfigrepo.git
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+
+agangil@AGANGIL-LAP MINGW64 /c/microservices/springcloudbusconfigrepo (master)
+$
+
+# java app command steps - execute one by one .
+# use below updated location to get app wget https://github.com/arjungangil2103/virajetechaws/releases/download/v.1/java-app.zip
+
+
+sudo yum update -y
+sudo yum install -y java-1.8.0-openjdk-devel
+sudo /usr/sbin/alternatives --config java
+sudo /usr/sbin/alternatives --config javac
+java -version
+cd /home/ec2-user
+wget https://github.com/arjungangil2103/virajetechaws/releases/download/v.1/java-app.zip
+unzip java-app.zip
+cd java-app
+java -Xmx700m -jar ec2-masterclass-sample-app.jar
+
+
+
+https://github.com/arjungangil2103/virajetechaws.git
+
+
+
+
+wget https://github.com/simplesteph/ec2-masterclass-sampleapp/releases/download/v1.0-alpha2/ec2-masterclass-sample-app.jar
+
+wget https://github.com/arjungangil2103/virajetechaws/releases/tag/v.0/ec2-masterclass-sample-app.jar
+
+wget https://localhost:20/java/git-repo-ec2-java-app/ec2-masterclass-sample-app.jar
+
+wget https://github.com/arjungangil2103/virajetechaws/releases/download/v.1/java-app.zip
+
+https://github.com/arjungangil2103/virajetechaws.git
+
+# java app command steps - execute one by one .
+sudo yum update -y
+sudo yum install -y java-1.8.0-openjdk-devel
+sudo /usr/sbin/alternatives --config java
+sudo /usr/sbin/alternatives --config javac
+java -version
+cd /home/ec2-user
+wget https://github.com/arjungangil2103/virajetechaws/releases/download/v.1/java-app.zip
+unzip java-app.zip
+cd java-app
+java -Xmx700m -jar ec2-masterclass-sample-app.jar
+
+
+
+https://git-codecommit.us-east-2.amazonaws.com/v1/repos/demo
+
+ssh://git-codecommit.us-east-2.amazonaws.com/v1/repos/demo
+
+
+User name virajetech-demo-at-947403935544
+Password piv8NyExPky7/WUXekbu9TOquGyk+kBkDkBh/i42cRw= Hide
+
+
+git remote set-url --add --push origin https://git-codecommit.us-east-2.amazonaws.com/v1/repos/virajetech
+
+git remote set-url --add --push origin https://git-codecommit.us-east-2.amazonaws.com/v1/repos/virajetech
+
+-----------------------------------------
+
+jenkin
+
+
+apt-key add jenkins-ci.org.key
+echo "deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list
+apt update
+apt upgrade
+apt install -y openjdk-8-jdk
+apt install -y nginx
+apt install -y jenkins
+systemctl status nginx | grep Active
+
+-------------
+
+unlink /etc/nginx/sites-enabled/default
+vim /etc/nginx/conf.d/jenkins.conf
+
+upstream jenkins {
+        server 127.0.0.1:8080;
+}
+
+server {
+         listen 80 default_server;
+         location / {
+             proxy_pass http://jenkins;
+             proxy_set_header Host $host;
+             proxy_set_header X-Real-IP $remote_addr;
+        }
+}
+
+nginx -t
+systemctl reload nginx
+
+------------------------
+
+we have our Ubuntu server in place and Jenkins and NGINX are installed.
+
+why do we need to install and configure NGINX if we're setting up a Jenkins server? 
+
+ how and why NGINX fits into this system.
+
+ We'll be configuring NGINX to act as a reverse proxy that sits in front of the Jenkins web application.
+ So instead of accessing our Jenkins application directly, we'll be accessing NGINX, 
+ which will pass on to Jenkins whatever requests were sent in.
+
+Jenkins will process the request and send a response back to NGINX and NGINX will then deliver the response back to us.
+ This seems like a lot of back and forth but we'll get a lot of benefit from this setup.
+ The main benefit we get from the reverse proxy is security for the app server. 
+ Jenkins listens on port 8080 by default. By setting up a security group and a reverse proxy that only allow access
+ on port 80 we can make sure that all requests to the app server come through the web server first.
+
+This gives the app server some protection by limiting access to it.
+
+ We can also use some of NGINX's other security features like simple password protection or limiting access by IP address.
+ The reverse proxy also gives us the benefit of generating logs for each request.
+ Jenkins does create logs but the content is more operational in terms of what Jenkins is doing, not what an end user is doing.
+ By logging requests in the proxy, we get much more information like when and where requests are coming from.
+
+So if there's ever a need to debug an issue with a server, 
+the NGINX logs will make a great compliment to the Jenkins logs.
+ Using NGINX as a reverse proxy also allows for simplified SSL termination.
+ With SSL, all the traffic from the Jenkins application would be encrypted. 
+ That improves the security of their information being transmitted.
+
+ And while it's not impossible to set up SSL termination using Jenkins alone, setting up SSL in NGINX is much easier.
+
+The Jenkins documentation even suggests using a reverse proxy for SSL termination instead of poking around in the Jenkins configuration. 
+
+ let's get NGINX configured. First, let's open a browser window and enter our EC2 Instances public DNS name, to make sure NGINX is running.
+
+ We can find that DNS name in the AWS console right here on the description tab for our Instance.
+
+And now I'll open a tab and paste in the DNS name. We see the welcome page, so we know everything is installed and running properly.
+
+ Now let's go to the terminal and add our reverse proxy configuration. 
+ I'm connected to our Jenkins server via SSH and I've elevated my session privileges using Sudo.
+ So now I'm running commands as the root user. First we need to get the default configuration out of the way by unlinking it.
+
+This doesn't remove the configuration, it just disables it. 
+Now we can add our configuration.
+ We can do that by adding a .conf file in etc/nginx/conf.d and I'll call it jenkins.conf. 
+ Now we can enter a simple configuration that includes an upstream to 
+ the Jenkins server running on the local host IP or 127.0.0.1 and listening on port 8080.
+
+And then we can add our server configuration that listens on port 80 and proxies all requests to the upstream server.
+
+We also need to add a few proxy set header directives that will make it easier for Jenkins to process requests from their proxy.
+
+Now we can save this configuration and test it to make sure there aren't any errors or typos. 
+I'll test the configuration with the nginx -t command. 
+And it does look like I have a typo in this file to let me see if I can correct that problem.
+
+Okay let's test that configuration one more time.  We didn't get any errors here so we can go on to loading the configuration 
+with systemctl reload command. Now let's go back to the browser to make sure our reverse proxy is pointing 
+to Jenkins like we expect. After I refresh this browser window I should see the Unlock Jenkins page.
+
+ Now that we have NGINX all set up, we can move on to configuring Jenkins.
+
+-----------------------------
+
+
+Using username "ubuntu".
+Authenticating with public key "imported-openssh-key"
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-1037-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat May  4 16:04:05 UTC 2019
+
+  System load:  0.0               Processes:           92
+  Usage of /:   27.0% of 7.69GB   Users logged in:     0
+  Memory usage: 30%               IP address for eth0: 172.31.88.211
+  Swap usage:   0%
+
+ * Ubuntu's Kubernetes 1.14 distributions can bypass Docker and use containerd
+   directly, see https://bit.ly/ubuntu-containerd or try it now with
+
+     snap install microk8s --classic
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Sat May  4 05:58:17 2019 from 157.49.155.218
+ubuntu@ip-172-31-88-211:~$ sudo su -
+root@ip-172-31-88-211:~# unlink /etc/nginx/sites-enabled/default
+root@ip-172-31-88-211:~# vim /etc/nginx/conf.d/jenkins.conf
+root@ip-172-31-88-211:~# nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+root@ip-172-31-88-211:~# systemctl reload nginx
+root@ip-172-31-88-211:~#
+
+----------
+
+sudo su -
+wget http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key 
+apt-key add jenkins-ci.org.key
+echo "deb http://pkg.jenkins-ci.org/debian binary/" > /etc/apt/sources.list.d/jenkins.list
+apt update
+apt upgrade
+apt install -y openjdk-8-jdk
+apt install -y nginx
+apt install -y jenkins
+systemctl status nginx | grep Active
+
+--------------
+
+sudo su -
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+jenkin url : http://ec2-52-21-10-87.compute-1.amazonaws.com/
+
+SMTP Username:
+AKIA5ZFNMZ44KAQAJ54X
+SMTP Password:
+BIR6FZEqQGXP7on83etge7g8l9WqQwjLKFGh4JOxPweo
+
+-----------
+
+#!/bin/bash
+#update the yum cache
+yum update
+
+# install java
+yum -y install java-1.8.0-openjdk
+
+# install git
+yum -y install git
+
+# install elastic beanstalk CLI
+/usr/bin/easy_install awsebcli
+
+------
+
+# initialize the eb application
+eb init JenkinsDemo-env --platform python-3.6 --region us-east-1
+
+# select the developement env for deployment
+eb use development
+
+# deploy the application
+eb deploy
+
+# get the deployment's health and status information
+eb health
+eb status
+
+----------
+
+AWSAccessKeyId=AKIAIIQBKSCRVLFLGM3Q
+AWSSecretKey=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
+us-east-1
+
+
+https://git-codecommit.us-east-1.amazonaws.com/v1/repos/demoserverless
+
+You use an email address and password to sign in to secure pages on AWS
+
+Name:
+ARJUN GANGIL
+
+Email:
+techviraje@gmail.com
+
+Password:
+****************
+
+User name
+awscliuser1
+
+awscliuser2
+
+Access key ID
+AKIA5ZFNMZ44EB4TMD55
+
+
+Secret access key
+ZO21XoNewquhay4MbVrzW6Rt/V1XfqICZ9Ccaswp
+
+User Name
+awscliuser2-at-947403935544
+
+
+Password
+YiG7BMP31yORrW2gXOLvX3DEEQ+No3J/8j3v+mPUB1k=
+
+
+git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/demoserverless
+
+git clone -c core.longpaths=true https://git-codecommit.us-east-1.amazonaws.com/v1/repos/demoserverless -b   bankofamerica
+
+-------------
+
+https://github.com/arjungangil2103/viarjetech-awscloud.git
